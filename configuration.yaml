@@ -1,0 +1,138 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 37.924701076802094
+  longitude: -121.63212776184082
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 6
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Los_Angeles
+  # Customization file
+  #customize: !include customize.yaml
+  customize:
+      sensor.greenhouse_temp:
+          friendly_name: "Greenhouse"
+      sensor.greenhouse_humidity:
+          friendly_name: "Greenhouse Humidity"
+
+# Show links to resources in log and frontend
+introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  #Add the below line to remove Home Assistant from giving tons of system info
+  reporting: false
+
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+mqtt:
+  # Default user is homeassistant
+  password: hello
+
+#notify:
+#  - name: Pushbullet
+#    platform: pushbullet
+#    api_key: o.LdGvuUI2j7WLYvKqktAnRLjuaFansEJg
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: yr
+#  - platform: mqtt
+#    name: "greenhouse_temp"
+#    state_topic: "tele/sonoff/greenhouse/SENSOR"
+#    value_template: "{{ value_json['AM2301'].Temperature }}"
+#    unit_of_measurement: "°F"
+#  - platform: mqtt
+#    name: "greenhouse_humidity"
+#    state_topic: "tele/sonoff/greenhouse/SENSOR"
+#    value_template: "{{ value_json['AM2301'].Humidity }}"
+#    unit_of_measurement: "%"
+#  - platform: mqtt
+#    name: "pool1_temp"
+#    friendly_name: "Pool1"
+#    state_topic: "tele/sonoff/pool1/SENSOR"
+#    value_template: "{{ value_json['DS18B20'].Temperature }}"
+#    unit_of_measurement: "°F"
+#  - platform: mqtt
+#    name: "pool2_temp"
+#    friendly_name: "Pool2"
+#    state_topic: "tele/sonoff/pool2/SENSOR"
+#    value_template: "{{ value_json['DS18B20'].Temperature }}"
+#    unit_of_measurement: "°F"
+  - platform: mqtt
+    name: "outside1_temp"
+    friendly_name: "Outside1"
+    state_topic: "sonoff/outside1/tele/SENSOR"
+    value_template: "{{ value_json['DS18B20'].Temperature }}"
+    unit_of_measurement: "  F"
+
+# Setup a python script to write to google sheets
+
+#shell_command: !include_dir_merge_named includes/shell_scripts
+#python_script: !include_dir_merge_named python_scripts
+
+#log_to_gsheets:
+#  python3 /home/homeassistant/.homeassistant/includes/python_scripts/homeassistant_test.py --noauth_local_webserver option {{sheetid}} {{temp}} {{humidity}}
+
+#shell_command: !include_dir_merge_named includes/shell_commands
+#
+#automation:
+#  trigger:
+#    platform: mqtt
+#    topic: "tele/sonoff/SENSOR"
+#  action:
+#  - service: shell_command.record_sensors #python_script.homeassistant_test #log_to_gsheets
+#    data_template:
+#        sensor01: 5 #'{{states.sensor.dark_sky_temperature.state | float}}'
+      #sheetid: 'foo foo'
+      #temp: "temp" #"{{ value_json['AM2301'].Temperature }}"
+      #humidity: "huidity" #"{{ value_json['AM2301'].Humidity }}"
+      #sensor01: '{{states.sensor.dark_sky_temperature.state | float}}'
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+group: !include groups.yaml
+#automation: !include automations.yaml
+script: !include scripts.yaml
